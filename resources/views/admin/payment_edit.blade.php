@@ -62,8 +62,12 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Bukti Pembayaran</label>
-                <div>
+                <div class="text-muted">
+                    @if ($payment->receipt)
                     <img src="{{ $payment->receipt_url }}" alt="Bukti Pembayaran" style="max-width: 300px">
+                    @else
+                        Bukti pembayaran belum di upload
+                    @endif
                 </div>
             </div>
             <div class="mt-4">

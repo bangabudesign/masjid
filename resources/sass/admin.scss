@@ -140,7 +140,7 @@
     }
     .nav-link {
         border-radius: $border-radius;
-        padding: 10px;
+        padding: 4px 8px;
         transition: background-color 500ms ease;
         display: flex;
         align-items: center;
@@ -157,14 +157,13 @@
             background-color: $light;
         }
         &.active{
+            background-color: $light;
+            box-shadow: 0 7px 1rem 0 hsla(0, 0%, 0%, 0.137) !important;
             nav {
-                color: $dark;
                 font-weight: 700;
             }
             .icon {
-                background-color: $primary;
-                color: $light;
-                box-shadow: 0 7px 1rem 0 rgb(30 170 231 / 25%) !important;
+                color: $primary;
             }
         }
     }

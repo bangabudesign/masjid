@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Event;
 use App\Models\FinancialStatement;
 use App\Models\Post;
@@ -18,12 +19,14 @@ class HomeController extends Controller
     {
         $sisa_saldo = FinancialStatement::sisaSaldo();
         $posts = Post::latestFirst()->activePost()->limit(6)->get();
-        $events = Event::latestFirst()->activeEvent()->limit(6)->get();
+        $events = Event::upcomingEvent()->activeEvent()->limit(6)->get();
+        $banners = Banner::active()->get();
 
         return view('home', [
             'sisa_saldo' => $sisa_saldo,
             'posts' => $posts,
             'events' => $events,
+            'banners' => $banners,
         ]);
     }
 }

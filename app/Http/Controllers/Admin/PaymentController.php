@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Models\Booking;
+use App\Models\Infaq;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
@@ -93,15 +94,19 @@ class PaymentController extends Controller
      */
     public function edit($paymentable_type, $paymentable_id, $id)
     {
+        $payment = Payment::findOrFail($id);
+
         if($paymentable_type == 'booking') {
             $model = Booking::findOrFail($paymentable_id);
-            $page_title = 'Tambah Pembayaran Booking '.$model->spot->name;
+            $page_title = 'Perbarui Pembayaran Booking '.$model->spot->name;
             $sub_title = 'Atas Nama '.$model->user->name;
+        } elseif($paymentable_type == 'infaq') {
+            $model = Infaq::findOrFail($paymentable_id);
+            $page_title = 'Infaq '.$model->name;
+            $sub_title = 'Atas Nama '.$payment->user->name;
         } else {
             return redirect()->back();
         }
-
-        $payment = Payment::findOrFail($id);
 
         return view('admin.payment_edit', [
             'model' => $model,
@@ -122,26 +127,33 @@ class PaymentController extends Controller
      */
     public function update(PaymentRequest $request, $paymentable_type, $paymentable_id, $id)
     {
+        $payment = Payment::findOrFail($id);
+
         if($paymentable_type == 'booking') {
             $model = Booking::findOrFail($paymentable_id);
-
-            $data = ([
-                'method' => $request->method,
-                'amount' => $request->amount,
-                'notes' => $request->notes,
-                'status' => $request->status,
-                'receipt' => $request->receipt,
-                'confirm_at' => $request->confirm_at,
-                'user_id' => $model->user_id,
-            ]);
+        } elseif($paymentable_type == 'infaq') {
+            $model = Infaq::findOrFail($paymentable_id);
         } else {
             return redirect()->back();
         }
 
-        $payment = Payment::findOrFail($id);
+        $data = ([
+            'method' => $request->method,
+            'amount' => $request->amount,
+            'notes' => $request->notes,
+            'status' => $request->status,
+            'receipt' => $request->receipt,
+            'confirm_at' => $request->confirm_at,
+            'user_id' => $payment->user_id,
+        ]);
+
         $payment->update($data);
 
-        return redirect()->route('admin.bookings.show', ['id' => $model->id])->with('successMessage', 'Berhasil memperbarui pembayaran');
+        if ($paymentable_type == 'booking') {
+            return redirect()->route('admin.bookings.show', ['id' => $model->id])->with('successMessage', 'Berhasil memperbarui pembayaran');
+        } elseif ($paymentable_type == 'infaq') {
+            return redirect()->route('admin.infaq.show', ['id' => $model->id])->with('successMessage', 'Berhasil memperbarui pembayaran');
+        }
     }
 
     /**

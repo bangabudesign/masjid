@@ -146,6 +146,18 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::findOrFail($id);
+
+        if ($event->image) {
+            $path = public_path('images/events');
+
+            if (!empty($event->image) && file_exists($path.'/'.$event->image)) {
+                unlink($path.'/'.$event->image);
+            }
+        }
+
+        $event->delete();
+
+        return redirect()->back()->with('successMessage', 'Data berhasil dihapus');
     }
 }

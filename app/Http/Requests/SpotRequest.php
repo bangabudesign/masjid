@@ -28,7 +28,7 @@ class SpotRequest extends FormRequest
             'slug' => 'required|alpha_dash|max:255|unique:spots,slug,'.$this->id,            
             'description' => 'nullable',
             'daily_booking_rate' => 'required|integer|min:0',
-            'hourly_booking_rate' => 'required|integer|min:0',
+            'hourly_booking_rate' => 'nullable|integer|min:0',
             'capacity' => 'required|integer',
             'is_active' => 'required|integer',
             'image' => 'required_without:old_image|image|max:2048',

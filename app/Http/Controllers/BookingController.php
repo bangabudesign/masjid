@@ -26,8 +26,23 @@ class BookingController extends Controller
     {
         $spot = Spot::findOrFail($spot_id);
 
+        $booked = Booking::where('spot_id', $spot_id)
+                        ->where('status', '>=', 0)
+                        ->select(['start_at', 'end_at'])
+                        ->get();
+
+        if ($booked) {
+            foreach($booked as $object)
+            {
+                $arrays[] = [$object->start_at, $object->end_at];
+            }
+        } else {
+            $arrays[] = '';
+        }
+        
         return view('booking_create', [
-            'spot' => $spot
+            'spot' => $spot,
+            'booked' => $arrays
         ]);
     }
 
@@ -44,7 +59,7 @@ class BookingController extends Controller
             'start_at' => 'required',
             'end_at' => 'required',
             'daily_booking_count' => 'required|integer|min:0',
-            'hourly_booking_count' => 'required|integer|min:0',
+            'hourly_booking_count' => 'nullable|integer|min:0',
             'notes' => 'nullable',
         ],[
             'required' => ':attribute wajib diisi',
@@ -64,8 +79,8 @@ class BookingController extends Controller
             'notes' => 'Catatan Tambahan',
         ]);
 
-        $booking1 = Booking::where('start_at', '>=', $request->start_at)->where('end_at', '<=', $request->end_at)->where('status', '>=', 0)->exists();
-        $booking2 = Booking::where('end_at', '>=', $request->start_at)->where('start_at', '<=', $request->end_at)->where('status', '>=', 0)->exists();
+        $booking1 = Booking::where('spot_id', $spot_id)->where('start_at', '>=', $request->start_at)->where('end_at', '<=', $request->end_at)->where('status', '>=', 0)->exists();
+        $booking2 = Booking::where('spot_id', $spot_id)->where('end_at', '>=', $request->start_at)->where('start_at', '<=', $request->end_at)->where('status', '>=', 0)->exists();
 
         if ($booking1) {
             return redirect()->back()->withInput()->with('errorMessage', 'Tanggal yang anda pilih tidak tersedia');
@@ -82,7 +97,7 @@ class BookingController extends Controller
             'start_at' => $request->start_at,
             'end_at' => $request->end_at,
             'daily_booking_count' => $request->daily_booking_count,
-            'hourly_booking_count' => $request->hourly_booking_count,
+            'hourly_booking_count' => $request->hourly_booking_count ?? 0,
             'notes' => $request->notes,
             'daily_booking_rate' => $spot->daily_booking_rate,
             'hourly_booking_rate' => $spot->hourly_booking_rate,

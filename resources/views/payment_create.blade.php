@@ -15,6 +15,26 @@
     <div class="card-body">
         <form action="{{ route('member.payments.store', ['paymentable_type' => $paymentable_type, 'paymentable_id' => $paymentable_id]) }}" method="post" enctype="multipart/form-data">
             @csrf
+            <div class="card mb-5 alert-primary text-dark" style="max-width: 320px">
+                <div class="card-body">
+                    @forelse ($banks as $bank)
+                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom border-primary">
+                        <div>
+                            <div>{{ $bank->bank_name }}</div>
+                            <div>{{ $bank->branch }}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-weight-bold">{{ $bank->account_number }}</div>
+                            <div>{{ $bank->account_name }}</div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom border-warning">
+                        Belum ada rekening bank
+                    </div>
+                    @endforelse
+                </div>
+            </div>
             <div class="form-group">
                 <label class="form-label">Metode Pembayaran</label>
                 <select class="form-control @error('method') is-invalid @enderror" name="method">

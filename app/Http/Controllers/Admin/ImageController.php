@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Spot;
 use Illuminate\Http\Request;
 
@@ -98,6 +99,18 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $image = Image::findOrFail($id);
+
+        if ($image->image) {
+            $path = public_path('images/galleries');
+
+            if (!empty($image->image) && file_exists($path.'/'.$image->image)) {
+                unlink($path.'/'.$image->image);
+            }
+        }
+
+        $image->delete();
+
+        return redirect()->back()->with('successMessage', 'Berhasil menghapus foto');
     }
 }

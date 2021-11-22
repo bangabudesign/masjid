@@ -6,21 +6,19 @@
     <div class="splide">
         <div class="splide__track">
               <ul class="splide__list">
+                  @forelse ($banners as $banner)
                   <li class="splide__slide">
-                      <a href="">
-                          <img src="/images/slideshow/slideshow-1.jpg">
-                      </a>
-                  </li>
+                        <a href="{{ $banner->link }}">
+                            <img src="{{ $banner->image_url }}">
+                        </a>
+                    </li>
+                  @empty
                   <li class="splide__slide">
-                      <a href="">
-                          <img src="/images/slideshow/slideshow-1.jpg">
-                      </a>
-                  </li>
-                  <li class="splide__slide">
-                      <a href="">
-                          <img src="/images/slideshow/slideshow-1.jpg">
-                      </a>
-                  </li>
+                        <a href="">
+                            <img src="/images/slideshow/slideshow-1.jpg">
+                        </a>
+                    </li>
+                  @endforelse
               </ul>
         </div>
     </div>
@@ -111,7 +109,7 @@
                     <div class="icon"><svg width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M30.75 3.25 33 5.5l2.25-2.25c4.28-4.28 11.22-4.28 15.5 0 4.28 4.28 4.28 11.22 0 15.5L33 36.5 15.25 18.75c-4.28-4.28-4.28-11.22 0-15.5 4.28-4.28 11.22-4.28 15.5 0ZM0 43a6 6 0 0 1 12 0v15a6 6 0 0 1-12 0V43Zm15-3v22c.667.667 3.1 2 7.5 2h23c1 0 3.4-.4 5-2s9-11 12.5-15.5c.667-.833 1.82-3.68 0-5.5-2-2-4-1.5-5.5 0l-9.013 9.871a5 5 0 0 1-3.692 1.629H29.75a1.75 1.75 0 1 1 0-3.5h12a3.75 3.75 0 1 0 0-7.5h-7.093c-1.061 0-2.072-.433-2.935-1.05-1.525-1.092-3.855-2.358-6.222-2.95-4-1-8.5 0-10.5 2.5Z" fill="currentColor"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h64v64H0z"/></clipPath></defs></svg></div>
                     <h3>Infaq & Sedekah</h3>
                     <p>Turut serta dalam memajukan dan memakmurkan {{ config('app.name', 'Laravel') }} dengan infaq & sedekah melalui daring.</p>
-                    <a href="http://" class="btn btn-block btn-primary">Beramal Sekarang</a>
+                    <a href="{{ route('infaq.index') }}" class="btn btn-block btn-primary">Beramal Sekarang</a>
                 </div>
             </div>
         </div>
@@ -137,7 +135,7 @@
                     </div>
                     <div class="content">
                         <h2>{{ $event->name }}</h2>
-                        <p>{{ \Illuminate\Support\Str::limit($event->body, 20, '...') }}</p>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($event->body), 20, '...') }}</p>
                         <a href="{{ route('event.show', ['slug' => $event->slug]) }}" class="btn btn-primary">Detail Acara <svg xmlns="http://www.w3.org/2000/svg" style="height: 20px; width: 20px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 8 4 4m0 0-4 4m4-4H3"></path></svg></a>
                     </div>
                 </div>
@@ -178,7 +176,7 @@
                     <div class="content">
                         <h2>{{ $post->title }}</h2>
                         <div class="info">{{ $post->published_at }}</div>
-                        <p>{{ \Illuminate\Support\Str::limit($post->body, 20, '...') }}</p>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($post->body), 20, '...') }}</p>
                         <a href="{{ route('post.show', ['slug' => $post->slug]) }}">Baca lebih lanjut...</a>
                     </div>
                 </div>
@@ -215,7 +213,9 @@
     document.addEventListener( 'DOMContentLoaded', function() {
       var splide = new Splide( '.splide', {
           width: '100%',
-          pagination: false
+          pagination: false,
+          interval: 3000,
+          autoplay: true
       } );
       splide.mount();
     } );

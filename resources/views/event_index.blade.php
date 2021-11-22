@@ -22,7 +22,7 @@
                     </div>
                     <div class="content">
                         <h2>{{ $event->name }}</h2>
-                        <p>{{ \Illuminate\Support\Str::limit($event->body, 20, '...') }}</p>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($event->body), 20, '...') }}</p>
                         <a href="{{ route('event.show', ['slug' => $event->slug]) }}" class="btn btn-primary">Detail Acara <svg xmlns="http://www.w3.org/2000/svg" style="height: 20px; width: 20px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 8 4 4m0 0-4 4m4-4H3"></path></svg></a>
                     </div>
                 </div>

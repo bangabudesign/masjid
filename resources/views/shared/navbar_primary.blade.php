@@ -15,7 +15,13 @@
                 <svg x-show="open" xmlns="http://www.w3.org/2000/svg" style="height: 24px; width: 24px; display: none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
             </a>
             <ul>
-                <li><a class="nav-link {{ (request()->is('profil')) ? 'active' : '' }}" href="{{ route('profile') }}">Profil</a></li>
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle {{ (request()->is('profil', 'personalia')) ? 'active' : '' }}" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Profil</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('profile') }}">Profil Masjid</a>
+                        <a class="dropdown-item" href="{{ route('team.index') }}">Personalia</a>
+                    </div>
+                </li>
                 <li><a class="nav-link {{ (request()->is('agenda')) ? 'active' : '' }}" href="{{ route('event.index') }}">Agenda</a></li>
                 <li><a class="nav-link {{ (request()->is('booking*')) ? 'active' : '' }}" href="{{ route('spot.index') }}">Booking</a></li>
                 <li><a class="nav-link {{ (request()->is('vendor-pernikahan*')) ? 'active' : '' }}" href="{{ route('vendors.index') }}">Vendor</a></li>

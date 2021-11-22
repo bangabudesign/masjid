@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 
@@ -17,12 +18,15 @@ class PaymentController extends Controller
             return redirect()->back();
         }
 
+        $banks = Bank::get();
+
         return view('payment_create', [
             'model' => $model,
             'paymentable_type' => $paymentable_type,
             'paymentable_id' => $paymentable_id,
             'page_title' => $page_title,
             'sub_title' => $sub_title,
+            'banks' => $banks,
         ]);
     }
 

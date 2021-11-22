@@ -53,7 +53,7 @@ class SpotController extends Controller
             'slug' => Str::slug($request->slug),
             'description' => $request->description,
             'daily_booking_rate' => $request->daily_booking_rate,
-            'hourly_booking_rate' => $request->hourly_booking_rate,
+            'hourly_booking_rate' => 0,
             'capacity' => $request->capacity,
             'is_active' => $request->is_active,
         ]);
@@ -115,7 +115,7 @@ class SpotController extends Controller
             'slug' => Str::slug($request->slug),
             'description' => $request->description,
             'daily_booking_rate' => $request->daily_booking_rate,
-            'hourly_booking_rate' => $request->hourly_booking_rate,
+            'hourly_booking_rate' => 0,
             'capacity' => $request->capacity,
             'is_active' => $request->is_active,
         ]);

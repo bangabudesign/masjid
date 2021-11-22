@@ -67,15 +67,11 @@
                         <div class="mb-4 h5 font-weight-normal">
                             <div class="d-flex justify-content-between mb-2">
                                 <div>Per Hari</div>
-                                <div class="text-muted">Rp 20,000,000</div>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <div>Per Jam</div>
-                                <div class="text-muted">Rp 1,000,000</div>
+                                <div class="text-muted">{{ 'Rp '.number_format($spot->daily_booking_rate) }}</div>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div>Kapasitas</div>
-                                <div class="text-muted">200 Orang</div>
+                                <div class="text-muted">{{ number_format($spot->capacity) }} Orang</div>
                             </div>
                         </div>
                         <a href="{{ route('booking.create', ['spot_id' => $spot->id]) }}" class="btn btn-primary btn-lg btn-block">Booking Sekarang</a>

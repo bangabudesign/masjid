@@ -122,6 +122,10 @@ class StatementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $statement = FinancialStatement::findOrFail($id);
+
+        $statement->delete();
+
+        return redirect()->back()->with('successMessage', 'Data berhasil dighapus');
     }
 }

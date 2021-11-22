@@ -7,7 +7,7 @@
 <section class="py-5">
     <div class="container">
         <div class="row justify-content-center post-details">
-            <div class="col-8 mb-4">
+            <div class="col-lg-10 mb-4">
                 <div class="card border-0 rounded">
                     <div class="card-news rounded-top">
                         <div>
@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h1 class="h2">{{ $post->title }}</h1>
+                        <h1 class="h3">{{ $post->title }}</h1>
                         <div>{!! $post->body !!}</div>
                     </div>
                 </div>

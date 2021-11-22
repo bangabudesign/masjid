@@ -31,8 +31,13 @@
                         <td>{{ $event->event_date }}</td>
                         <td>{{ $event->name }}</td>
                         <td>{!! $event->status_formatted !!}</td>
-                        <td>
-                            <a href="{{ route('admin.events.edit', ['id' => $event->id]) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <td class="d-flex">
+                            <form action="{{ route('admin.events.destroy', ['id' => $event->id]) }}" method="post" onsubmit = "if (! confirm('Hapus acara ini?')) { return false; }">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-sm btn-danger"><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 0 0-.894.553L7.382 4H4a1 1 0 0 0 0 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6a1 1 0 1 0 0-2h-3.382l-.724-1.447A1 1 0 0 0 11 2H9zM7 8a1 1 0 0 1 2 0v6a1 1 0 1 1-2 0V8zm5-1a1 1 0 0 0-1 1v6a1 1 0 1 0 2 0V8a1 1 0 0 0-1-1z" clip-rule="evenodd"/></svg></button>
+                            </form>
+                            <a href="{{ route('admin.events.edit', ['id' => $event->id]) }}" class="btn btn-sm btn-secondary ml-2">Edit</a>
                         </td>
                     </tr>
                     @empty

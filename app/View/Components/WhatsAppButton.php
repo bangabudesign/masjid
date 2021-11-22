@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Support;
 use Illuminate\View\Component;
 
 class WhatsAppButton extends Component
@@ -23,6 +24,10 @@ class WhatsAppButton extends Component
      */
     public function render()
     {
-        return view('components.whats-app-button');
+        $supports = Support::active()->get();
+
+        return view('components.whats-app-button', [
+            'supports' => $supports,
+        ]);
     }
 }

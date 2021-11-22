@@ -41,6 +41,12 @@ class Event extends Model
         return $query->orderBy('event_date', 'DESC');
     }
 
+    public function scopeUpcomingEvent($query)
+    {
+        return $query->orderBy('event_date', 'ASC')
+                ->where('event_date', '>=', now());
+    }
+
     public function scopeActiveEvent($query)
     {
         return $query->where('status', self::PUBLISH);

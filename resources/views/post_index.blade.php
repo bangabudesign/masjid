@@ -16,7 +16,7 @@
                     <div class="content">
                         <h2>{{ $post->title }}</h2>
                         <div class="info">{{ $post->published_at }}</div>
-                        <p>{{ \Illuminate\Support\Str::limit($post->body, 20, '...') }}</p>
+                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($post->body), 20, '...') }}</p>
                         <a href="{{ route('post.show', ['slug' => $post->slug]) }}">Baca lebih lanjut...</a>
                     </div>
                 </div>

@@ -65,13 +65,6 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="col-12 col-md-4 form-group">
-                    <label class="form-label">Harga / Jam</label>
-                    <input type="number" class="form-control @error('hourly_booking_rate') is-invalid @enderror" name="hourly_booking_rate" value="{{ old('hourly_booking_rate', $spot->hourly_booking_rate) }}">
-                    @error('hourly_booking_rate')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
                 <div class="col-12 col-md-2 form-group">
                     <label class="form-label">Kapasitas</label>
                     <input type="number" class="form-control @error('capacity') is-invalid @enderror" name="capacity" value="{{ old('capacity', $spot->capacity) }}">
@@ -109,6 +102,11 @@
                                     <img :src="imageUrl">
                                 </template>
                             </div>
+                            <form action="{{ route('admin.images.destroy', ['id' => $image->id]) }}" method="post" onsubmit = "if (! confirm('Hapus foto ini?')) { return false; }">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 0 0-.894.553L7.382 4H4a1 1 0 0 0 0 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6a1 1 0 1 0 0-2h-3.382l-.724-1.447A1 1 0 0 0 11 2H9zM7 8a1 1 0 0 1 2 0v6a1 1 0 1 1-2 0V8zm5-1a1 1 0 0 0-1 1v6a1 1 0 1 0 2 0V8a1 1 0 0 0-1-1z" clip-rule="evenodd"/></svg></button>
+                            </form>
                         </div> 
                     </div>
                     <input type="hidden" name="old_image" value="{{ $spot->image }}">
@@ -155,6 +153,45 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+
+<script>
+    ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+            ]
+        }
+    } )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
+
+    // image preview
+    const fileReader = new FileReader();
+    const fileInput = document.getElementById("fileInput");
+    const imgPreview = document.getElementById("imgPreview");
+    let file;
+
+    fileReader.onload = e => {
+    imgPreview.src = e.target.result;
+    }
+
+    fileInput.addEventListener('change', e => {
+    const f = e.target.files[0];
+    file = f;
+    fileReader.readAsDataURL(f);
+    })
+</script>
+
 <script>
     function imageViewer(src = '') {
     return {
